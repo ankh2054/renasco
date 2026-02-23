@@ -1,0 +1,331 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Qwitcher+Grypen&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Renasco Brand Colors - Teal/Turquoise */
+    --teal-900: #004d4d;
+    --teal-800: #006666;
+    --teal-700: #008080;
+    --teal-600: #009999;
+    --teal-500: #00b3b3;
+    --teal-400: #00cccc;
+    --teal-300: #00e5e5;
+    --teal-200: #1affff;
+    --teal-100: #99ffff;
+
+    /* Neutral color palette */
+    --gray-900: #070707;
+    --gray-800: #0e0e0e;
+    --gray-700: #161616;
+    --gray-600: #1d1d1d;
+    --gray-500: #242424;
+    --gray-400: #505050;
+    --gray-300: #7c7c7c;
+    --gray-200: #a7a7a7;
+    --gray-100: #d3d3d3;
+
+    /* Page background - Cream/Light */
+    --page-bg: #f5f0e8;
+    --cream: #f5f0e8;
+    --cream-dark: #e8e0d4;
+
+    /* shadcn/ui variable mapping */
+    --background: 40 20% 94%;
+    --foreground: 0 0% 15%;
+    --card: 40 20% 94%;
+    --card-foreground: 0 0% 15%;
+    --popover: 40 20% 94%;
+    --popover-foreground: 0 0% 15%;
+    --primary: 180 100% 35%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 40 20% 90%;
+    --secondary-foreground: 0 0% 15%;
+    --muted: 40 15% 88%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 180 100% 35%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 79% 44%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 15% 80%;
+    --input: 40 15% 80%;
+    --ring: 180 100% 35%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--page-bg);
+    color: #1a1a1a;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+  }
+
+  .font-serif {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .font-sans {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .font-script {
+    font-family: 'Qwitcher Grypen', cursive;
+  }
+}
+
+@layer components {
+  /* Global Noise Overlay */
+  .noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  /* Magnetic Button Styles */
+  .magnetic-btn {
+    @apply relative overflow-hidden px-8 py-3 text-sm font-medium tracking-wide;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 2rem;
+  }
+
+  .magnetic-btn:hover {
+    transform: scale(1.03);
+  }
+
+  .magnetic-btn .btn-bg {
+    @apply absolute inset-0 transition-transform duration-300;
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateX(-100%);
+  }
+
+  .magnetic-btn:hover .btn-bg {
+    transform: translateX(0);
+  }
+
+  .magnetic-btn .btn-text {
+    @apply relative z-10;
+  }
+
+  /* Primary Button - Teal */
+  .btn-primary {
+    background-color: var(--teal-500);
+    color: white;
+  }
+
+  .btn-primary .btn-bg {
+    background-color: var(--teal-600);
+  }
+
+  /* Outline Button */
+  .btn-outline {
+    background-color: white;
+    color: var(--teal-700);
+    border: 2px solid var(--teal-700);
+  }
+
+  .btn-outline .btn-bg {
+    background-color: var(--teal-700);
+  }
+
+  .btn-outline:hover .btn-text {
+    color: white;
+  }
+
+  /* Link hover lift */
+  .link-lift {
+    transition: transform 0.2s ease-out;
+  }
+
+  .link-lift:hover {
+    transform: translateY(-1px);
+  }
+
+  /* Rounded Container System */
+  .rounded-container {
+    border-radius: 2rem;
+  }
+
+  .rounded-container-lg {
+    border-radius: 3rem;
+  }
+
+  /* Card Styles */
+  .feature-card {
+    @apply relative overflow-hidden;
+    border-radius: 2rem;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .feature-card:hover {
+    transform: scale(1.02);
+  }
+
+  /* How to Book Step Card */
+  .step-card {
+    @apply relative;
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Newsletter Section */
+  .newsletter-section {
+    background-color: var(--cream);
+  }
+
+  /* Footer */
+  .footer-section {
+    background-color: var(--teal-700);
+    color: white;
+  }
+
+  /* Fade-up animation for GSAP */
+  .fade-up-element {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  /* Slide-in animations */
+  .slide-in-left-element {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  .slide-in-right-element {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  /* Scale-in animation */
+  .scale-in-element {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  /* Ken Burns effect */
+  @keyframes kenburns {
+    0% {
+      transform: scale(1) translate(0, 0);
+    }
+    50% {
+      transform: scale(1.08) translate(-1%, -1%);
+    }
+    100% {
+      transform: scale(1) translate(0, 0);
+    }
+  }
+
+  .kenburns {
+    animation: kenburns 12s ease-in-out infinite;
+  }
+
+  /* Hero background - subtle slow zoom breathe */
+  @keyframes hero-breathe {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.04);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .hero-kenburns {
+    animation: hero-breathe 20s ease-in-out infinite;
+  }
+
+  /* Preloader animation */
+  @keyframes preloader-fade {
+    0% { opacity: 0; transform: translateY(10px); }
+    30% { opacity: 1; transform: translateY(0); }
+    70% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
+  }
+
+  @keyframes preloader-line {
+    0% { width: 0; }
+    100% { width: 100%; }
+  }
+
+  .preloader-text {
+    animation: preloader-fade 2s ease-in-out forwards;
+  }
+
+  .preloader-line {
+    animation: preloader-line 2s ease-in-out forwards;
+  }
+}
+
+@layer utilities {
+  /* Text gradient */
+  .text-gradient-teal {
+    background: linear-gradient(135deg, var(--teal-400), var(--teal-700));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Background overlays */
+  .bg-overlay-dark {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6));
+  }
+
+  .bg-overlay-light {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.4));
+  }
+
+  /* Section padding */
+  .section-padding {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  @media (max-width: 768px) {
+    .section-padding {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+    }
+  }
+
+  /* Container */
+  .container-custom {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-custom {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+}
