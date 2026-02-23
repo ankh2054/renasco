@@ -1,20 +1,89 @@
 import { useState, useEffect } from 'react';
 
+const PRELOAD_VIDEOS = [
+  '/images/home.mp4',
+  '/images/ocean.mp4',
+  '/images/retreat.mp4',
+  '/images/faq.mp4',
+  '/images/wavez.mp4',
+];
+
+const PRELOAD_TIMEOUT_MS = 15000;
+const MIN_DISPLAY_MS = 2200;
+const FADE_DURATION_MS = 600;
+
+function preloadVideos(): Promise<void> {
+  return Promise.all(
+    PRELOAD_VIDEOS.map(
+      (src) =>
+        new Promise<void>((resolve) => {
+          const video = document.createElement('video');
+          video.preload = 'auto';
+          video.muted = true;
+          video.playsInline = true;
+
+          let timeoutId: ReturnType<typeof setTimeout>;
+          const onReady = () => {
+            clearTimeout(timeoutId);
+            video.removeEventListener('canplaythrough', onReady);
+            video.removeEventListener('error', onReady);
+            video.src = '';
+            video.load();
+            resolve();
+          };
+          const onTimeout = () => {
+            video.removeEventListener('canplaythrough', onReady);
+            video.removeEventListener('error', onReady);
+            video.src = '';
+            video.load();
+            resolve();
+          };
+
+          video.addEventListener('canplaythrough', onReady, { once: true });
+          video.addEventListener('error', onReady, { once: true });
+          timeoutId = setTimeout(onTimeout, PRELOAD_TIMEOUT_MS);
+
+          video.src = src;
+          video.load();
+        })
+    )
+  ).then(() => {});
+}
+
 interface PreloaderProps {
   onComplete: () => void;
 }
 
 export function Preloader({ onComplete }: PreloaderProps) {
   const [phase, setPhase] = useState<'loading' | 'fading'>('loading');
+  const [mediaReady, setMediaReady] = useState(false);
 
   useEffect(() => {
-    const fadeTimer = setTimeout(() => setPhase('fading'), 2200);
-    const completeTimer = setTimeout(() => onComplete(), 2800);
+    let cancelled = false;
+    preloadVideos().then(() => {
+      if (cancelled) return;
+      setMediaReady(true);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!mediaReady) return;
+
+    const fadeAt = MIN_DISPLAY_MS;
+    const completeAt = MIN_DISPLAY_MS + FADE_DURATION_MS;
+
+    const fadeTimer = setTimeout(() => setPhase('fading'), fadeAt);
+    const completeTimer = setTimeout(() => onComplete(), completeAt);
+
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(completeTimer);
     };
-  }, [onComplete]);
+  }, [mediaReady, onComplete]);
 
   return (
     <div

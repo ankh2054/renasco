@@ -54,7 +54,14 @@ docker run -d -p 80:80 --name renasco-retreats renasco-retreats
 Run on `sentnl-net` with nginx-proxy (set `VIRTUAL_HOST` to your domain; nginx-acme can issue certs via `LETSENCRYPT_HOST` etc.):
 
 ```bash
-docker run -d --network sentnl-net -e VIRTUAL_HOST=retreats.yourdomain.com --name renasco-retreats renasco-retreats
+docker run -d \
+  --name renasco-retreats \
+  --network  cookz-net \
+  -e VIRTUAL_HOST=renasco.sentnl.io\
+  -e VIRTUAL_PORT=80 \
+  -e LETSENCRYPT_HOST=renasco.sentnl.io \
+  -e LETSENCRYPT_EMAIL=charles.holtzkampf@gmail.com \
+  renasco-retreats
 ```
 
 ## Configuration
