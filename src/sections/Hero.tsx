@@ -5,6 +5,7 @@ import gsap from 'gsap';
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const fallbackRef = useRef<HTMLImageElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
@@ -58,14 +59,25 @@ export function Hero() {
     >
       {/* Video Background */}
       <div className="absolute inset-0 overflow-hidden bg-[#2a4a4a]">
+        <img
+          ref={fallbackRef}
+          src="/images/home.jpg"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500"
+        />
         <video
           ref={videoRef}
           autoPlay
           muted
           loop
           playsInline
+          poster="/images/home.jpg"
           className="absolute inset-0 w-full h-full object-cover"
           src="/images/home.mp4"
+          onCanPlay={() => {
+            fallbackRef.current?.classList.add('opacity-0');
+          }}
         >
           <source src="/images/home.mp4" type="video/mp4" />
         </video>
