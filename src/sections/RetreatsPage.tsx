@@ -254,17 +254,17 @@ export function RetreatsPage() {
         className="relative min-h-[85vh] flex items-center justify-center py-20 md:py-28 text-center overflow-hidden"
       >
         <img
-          src="/images/retreat.jpg"
+          src="/images/retreats/villa-pool.jpg"
           alt=""
           aria-hidden
-          className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 hero-fallback"
+          className="absolute inset-0 w-full h-full object-cover object-bottom transition-opacity duration-500 hero-fallback"
         />
         {!heroVideoEnded ? (
           <video
             autoPlay
             muted
             playsInline
-            poster="/images/retreat.jpg"
+            poster="/images/retreats/villa-pool.jpg"
             onEnded={() => setHeroVideoEnded(true)}
             onCanPlay={(e) => {
               (e.target as HTMLVideoElement).parentElement?.querySelector('.hero-fallback')?.classList.add('opacity-0');
