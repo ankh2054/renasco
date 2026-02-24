@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
+import { VideoBackground } from '../components/VideoBackground';
 import {
   Moon,
   Ship,
@@ -253,27 +254,15 @@ export function RetreatsPage() {
         ref={heroRef}
         className="relative min-h-[85vh] flex items-center justify-center py-20 md:py-28 text-center overflow-hidden"
       >
-        <img
-          src="/images/retreats/villa-pool.jpg"
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover object-bottom transition-opacity duration-500 hero-fallback"
-        />
         {!heroVideoEnded ? (
-          <video
-            autoPlay
-            muted
-            playsInline
-            poster="/images/retreats/villa-pool.jpg"
-            onEnded={() => setHeroVideoEnded(true)}
-            onCanPlay={(e) => {
-              (e.target as HTMLVideoElement).parentElement?.querySelector('.hero-fallback')?.classList.add('opacity-0');
-            }}
+          <VideoBackground
+            videoSrc="/images/retreat.mp4"
+            fallbackSrc="/images/retreats/villa-pool.jpg"
+            loop={false}
             className="absolute inset-0 w-full h-full object-cover scale-[1.15] origin-center"
-            aria-label="Retreat villa and surroundings"
-          >
-            <source src="/images/retreat.mp4" type="video/mp4" />
-          </video>
+            fallbackClassName="absolute inset-0 w-full h-full object-cover object-bottom"
+            onEnded={() => setHeroVideoEnded(true)}
+          />
         ) : (
           <img
             src="/images/retreats/villa-pool.jpg"

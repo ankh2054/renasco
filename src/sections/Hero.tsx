@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
+import { VideoBackground } from '../components/VideoBackground';
 import { RENASCO_HOME_VIDEO_READY } from '../utils/preloadPageVideos';
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const fallbackRef = useRef<HTMLImageElement>(null);
+  const videoRef = useRef<HTMLDivElement>(null);
   const homeVideoReadyFired = useRef(false);
   const logoRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -18,8 +18,8 @@ export function Hero() {
       // Video fade in
       gsap.fromTo(
         videoRef.current,
-        { opacity: 0, scale: 1.1 },
-        { opacity: 1, scale: 1, duration: 1.5, ease: 'power2.out' }
+        { opacity: 0 },
+        { opacity: 1, duration: 1.5, ease: 'power2.out' }
       );
 
       // Logo animation
@@ -60,33 +60,17 @@ export function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
       {/* Video Background */}
-      <div className="absolute inset-0 overflow-hidden bg-[#2a4a4a]">
-        <img
-          ref={fallbackRef}
-          src="/images/home.jpg"
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500"
-        />
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/images/home.jpg"
-          className="absolute inset-0 w-full h-full object-cover"
-          src="/images/home.mp4"
-          onCanPlay={() => {
-            fallbackRef.current?.classList.add('opacity-0');
+      <div ref={videoRef} className="absolute inset-0 overflow-hidden bg-[#2a4a4a]">
+        <VideoBackground
+          videoSrc="/images/home.mp4"
+          fallbackSrc="/images/home.jpg"
+          onReady={() => {
             if (!homeVideoReadyFired.current) {
               homeVideoReadyFired.current = true;
               window.dispatchEvent(new CustomEvent(RENASCO_HOME_VIDEO_READY));
             }
           }}
-        >
-          <source src="/images/home.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
 
       {/* Dark Overlay */}

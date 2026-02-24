@@ -1,3 +1,5 @@
+import { markVideoLoaded } from '../components/VideoBackground';
+
 const OTHER_PAGE_VIDEOS = [
   '/images/ocean.mp4',
   '/images/retreat.mp4',
@@ -5,18 +7,26 @@ const OTHER_PAGE_VIDEOS = [
   '/images/wavez.mp4',
 ];
 
-const preloadedRefs: HTMLVideoElement[] = [];
+let started = false;
 
 export function preloadOtherPageVideos(): void {
-  if (preloadedRefs.length > 0) return;
+  if (started) return;
+  started = true;
+
   OTHER_PAGE_VIDEOS.forEach((src) => {
     const video = document.createElement('video');
     video.preload = 'auto';
     video.muted = true;
     video.playsInline = true;
     video.src = src;
+
+    video.addEventListener(
+      'canplaythrough',
+      () => markVideoLoaded(src),
+      { once: true }
+    );
+
     video.load();
-    preloadedRefs.push(video);
   });
 }
 
