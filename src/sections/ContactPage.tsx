@@ -88,13 +88,23 @@ export function ContactPage() {
         className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden"
       >
         <div className="absolute inset-0 overflow-hidden bg-[#008080]">
+          <img
+            src="/images/ocean.jpg"
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 hero-fallback"
+          />
           <video
             autoPlay
             muted
             loop
             playsInline
+            poster="/images/ocean.jpg"
             className="absolute inset-0 w-full h-full object-cover"
             src="/images/ocean.mp4"
+            onCanPlay={(e) => {
+              (e.target as HTMLVideoElement).parentElement?.querySelector('.hero-fallback')?.classList.add('opacity-0');
+            }}
           >
             <source src="/images/ocean.mp4" type="video/mp4" />
           </video>

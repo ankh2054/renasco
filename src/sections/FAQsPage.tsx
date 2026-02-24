@@ -272,13 +272,23 @@ export function FAQsPage() {
       <div className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
         {/* Video Background */}
         <div className="absolute inset-0 overflow-hidden bg-[#2a4a4a]">
+          <img
+            src="/images/faq.jpg"
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 hero-fallback"
+          />
           <video
             autoPlay
             muted
             loop
             playsInline
+            poster="/images/faq.jpg"
             className="absolute inset-0 w-full h-full object-cover"
             src="/images/faq.mp4"
+            onCanPlay={(e) => {
+              (e.target as HTMLVideoElement).parentElement?.querySelector('.hero-fallback')?.classList.add('opacity-0');
+            }}
           >
             <source src="/images/faq.mp4" type="video/mp4" />
           </video>

@@ -253,12 +253,22 @@ export function RetreatsPage() {
         ref={heroRef}
         className="relative min-h-[85vh] flex items-center justify-center py-20 md:py-28 text-center overflow-hidden"
       >
+        <img
+          src="/images/retreat.jpg"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 hero-fallback"
+        />
         {!heroVideoEnded ? (
           <video
             autoPlay
             muted
             playsInline
+            poster="/images/retreat.jpg"
             onEnded={() => setHeroVideoEnded(true)}
+            onCanPlay={(e) => {
+              (e.target as HTMLVideoElement).parentElement?.querySelector('.hero-fallback')?.classList.add('opacity-0');
+            }}
             className="absolute inset-0 w-full h-full object-cover scale-[1.15] origin-center"
             aria-label="Retreat villa and surroundings"
           >
