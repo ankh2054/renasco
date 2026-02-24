@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
+import { RENASCO_HOME_VIDEO_READY } from '../utils/preloadPageVideos';
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const fallbackRef = useRef<HTMLImageElement>(null);
+  const homeVideoReadyFired = useRef(false);
   const logoRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
@@ -77,6 +79,10 @@ export function Hero() {
           src="/images/home.mp4"
           onCanPlay={() => {
             fallbackRef.current?.classList.add('opacity-0');
+            if (!homeVideoReadyFired.current) {
+              homeVideoReadyFired.current = true;
+              window.dispatchEvent(new CustomEvent(RENASCO_HOME_VIDEO_READY));
+            }
           }}
         >
           <source src="/images/home.mp4" type="video/mp4" />

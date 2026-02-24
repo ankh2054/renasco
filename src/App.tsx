@@ -11,6 +11,7 @@ import { RetreatsPage } from './sections/RetreatsPage';
 import { FAQsPage } from './sections/FAQsPage';
 import { ContactPage } from './sections/ContactPage';
 import { Preloader } from './components/Preloader';
+import { preloadOtherPageVideos, RENASCO_HOME_VIDEO_READY } from './utils/preloadPageVideos';
 
 function HomePage() {
   return (
@@ -46,6 +47,12 @@ function App() {
       el.removeEventListener('pause', onPause);
     };
   }, [isLoading]);
+
+  useEffect(() => {
+    const onHomeVideoReady = () => preloadOtherPageVideos();
+    window.addEventListener(RENASCO_HOME_VIDEO_READY, onHomeVideoReady);
+    return () => window.removeEventListener(RENASCO_HOME_VIDEO_READY, onHomeVideoReady);
+  }, []);
 
   const handlePreloaderComplete = useCallback(() => {
     setIsLoading(false);
