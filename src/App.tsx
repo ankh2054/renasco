@@ -97,6 +97,17 @@ function App() {
         </Routes>
         <Footer />
       </div>
+      {/* #region agent log */}
+      <pre
+        id="__dbg391el"
+        style={{
+          position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 99999,
+          background: 'rgba(0,0,0,0.85)', color: '#0f0', fontSize: 9,
+          maxHeight: '30vh', overflow: 'auto', padding: 6, margin: 0,
+          pointerEvents: 'auto', whiteSpace: 'pre-wrap', wordBreak: 'break-all',
+        }}
+      />
+      {/* #endregion */}
     </HashRouter>
   );
 }
